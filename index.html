@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>🎄 Juleoverraskelse</title>
+  <style>
+    body {
+      background: #0b3d2e;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding-top: 60px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    #countdown {
+      font-size: 2em;
+      margin-top: 20px;
+    }
+
+    #gift {
+      display: none;
+      margin-top: 30px;
+    }
+
+    img {
+      max-width: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="headline">🎁 Julegaver skal ikke åpnes før julaften!</h1>
+<div id="countdown"></div>
+
+<div id="gift">
+  <h1>🎄 God Jul!</h1>
+  <img src="gavekort.jpg" alt="Gavekort">
+</div>
+
+<script>
+function getNextChristmas() {
+  const now = new Date();
+  let year = now.getFullYear();
+  let christmas = new Date(`${year}-12-24T00:01:00`);
+
+  if (now > christmas) {
+    christmas = new Date(`${year + 1}-12-24T00:01:00`);
+  }
+  return christmas;
+}
+
+const targetDate = getNextChristmas();
+
+setInterval(() => {
+  const now = new Date();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    document.getElementById("headline").style.display = "none";
+    document.getElementById("countdown").style.display = "none";
+    document.getElementById("gift").style.display = "block";
+    return;
+  }
+
+  const dager = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const timer = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutter = Math.floor((diff / (1000 * 60)) % 60);
+  const sekunder = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("countdown").innerText =
+    `⏳ ${dager}d ${timer}t ${minutter}m ${sekunder}s`;
+}, 1000);
+</script>
+
+</body>
+</html>
